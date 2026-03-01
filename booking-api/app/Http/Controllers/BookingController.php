@@ -7,6 +7,10 @@ use App\Models\Resource;
 use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
 
+use App\Mail\BookingConfirmed;
+use App\Mail\BookingCancelled;
+use Illuminate\Support\Facades\Mail;
+
 class BookingController extends Controller
 {
     // ✅ Mes réservations
@@ -86,6 +90,12 @@ class BookingController extends Controller
             'special_requests' => $validated['special_requests'] ?? null,
         ]);
 
+        //  ✅ Mail de création
+
+        Mail::to($request->user()->email)
+            ->queue(new BookingConfirmed($booking->load(['user', 'resource'])));
+
+
         return new BookingResource($booking->load(['resource.category']));
     }
 
@@ -136,9 +146,14 @@ class BookingController extends Controller
         }
 
         $booking->update(['status' => 'cancelled']);
+        // Mail annulation
+        Mail::to($request->user()->email)
+            ->queue(new BookingCancelled($booking->load(['user', 'resource'])));
 
         return response()->json([
             'message' => 'Réservation annulée avec succès.',
         ]);
+
+
     }
 }
