@@ -15,46 +15,60 @@ class ResourceController extends Controller
         $query = Resource::with('category')->where('is_active', true);
 
         // Filtre par catégorie
-        if ($request->has('category')) {
+        if ($request->filled('category')) {
             $query->whereHas('category', function ($q) use ($request) {
                 $q->where('slug', $request->category);
             });
         }
 
         // Filtre par capacité
-        if ($request->has('capacity')) {
+        if ($request->filled('capacity') && $request->capacity > 1) {
             $query->where('capacity', '>=', $request->capacity);
         }
 
         // Filtre par prix max
-        if ($request->has('price_max')) {
+        if ($request->filled('price_max') && $request->price_max < 1000) {
             $query->where('price_per_night', '<=', $request->price_max);
         }
 
         // Filtre par prix min
-        if ($request->has('price_min')) {
+        if ($request->filled('price_min')) {
             $query->where('price_per_night', '>=', $request->price_min);
         }
 
         // Filtre par localisation
-        if ($request->has('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+        if ($request->filled('location')) {
+            $query->where('location', 'ilike', '%' . $request->location . '%');
+            // ✅ ilike = insensible à la casse sur PostgreSQL
         }
 
-        // Filtre par disponibilité (dates)
-        if ($request->has('check_in') && $request->has('check_out')) {
+        // Filtre par disponibilité — seulement si LES DEUX dates sont présentes
+        if ($request->filled('check_in') && $request->filled('check_out')) {
             $query->whereDoesntHave('bookings', function ($q) use ($request) {
                 $q->whereIn('status', ['pending', 'confirmed'])
                     ->where(function ($q) use ($request) {
-                        $q->whereBetween('check_in_date', [$request->check_in, $request->check_out])
-                            ->orWhereBetween('check_out_date', [$request->check_in, $request->check_out]);
+                        $q->whereBetween('check_in_date', [
+                            $request->check_in,
+                            $request->check_out
+                        ])
+                            ->orWhereBetween('check_out_date', [
+                                $request->check_in,
+                                $request->check_out
+                            ])
+                            ->orWhere(function ($q) use ($request) {
+                                $q->where('check_in_date', '<=', $request->check_in)
+                                    ->where('check_out_date', '>=', $request->check_out);
+                            });
                     });
             });
         }
 
         // Tri
-        $sortBy  = $request->get('sort_by', 'price_per_night');
-        $sortDir = $request->get('sort_dir', 'asc');
+        $allowed  = ['price_per_night', 'capacity', 'name'];
+        $sortBy   = in_array($request->get('sort_by'), $allowed)
+            ? $request->get('sort_by')
+            : 'price_per_night';
+        $sortDir  = $request->get('sort_dir') === 'desc' ? 'desc' : 'asc';
         $query->orderBy($sortBy, $sortDir);
 
         $resources = $query->paginate(12);

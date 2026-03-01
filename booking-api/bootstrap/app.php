@@ -12,14 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // ✅ Sanctum
         $middleware->api(prepend: [
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \App\Http\Middleware\HandleCors::class,
         ]);
 
         // ✅ CORS
-        $middleware->trustHosts(at: ['localhost']);
+        $middleware->append(\App\Http\Middleware\HandleCors::class);
     })
 
     ->withExceptions(function (Exceptions $exceptions) {

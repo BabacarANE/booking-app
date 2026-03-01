@@ -18,6 +18,9 @@ Route::get('/resources/{id}/availability', [ResourceController::class, 'availabi
 
 // Routes protégées
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return new \App\Http\Resources\UserResource($request->user());
+    });
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('/bookings', BookingController::class);
     Route::post('/payments', [PaymentController::class, 'createIntent']);
