@@ -443,7 +443,12 @@ async function handleBooking() {
       check_out_date:   booking.value.check_out,
       special_requests: booking.value.special_requests,
     })
-    router.push('/dashboard')
+
+    // ✅ data.data.id au lieu de data.id
+    router.push({
+      name:  'checkout',
+      query: { booking_id: data.data.id }
+    })
   } catch (e) {
     error.value = e.response?.data?.message || 'Une erreur est survenue.'
   } finally {
