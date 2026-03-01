@@ -16,12 +16,51 @@
 
     <div v-else-if="store.resource">
 
-      <!-- Hero image -->
-      <div class="relative h-80 bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 overflow-hidden">
-        <div class="absolute inset-0 flex items-center justify-center">
+      <!-- Hero image / Galerie carrousel -->
+      <div class="relative h-96 overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-600">
+
+        <!-- Images -->
+        <transition-group name="fade">
+          <div
+            v-for="(img, index) in store.resource.images_list"
+            :key="img.id"
+            v-show="currentImageIndex === index"
+            class="absolute inset-0"
+          >
+            <img
+              :src="img.url"
+              :alt="store.resource.name"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </transition-group>
+
+        <!-- Fallback si pas d'images -->
+        <div
+          v-if="!store.resource.images_list?.length"
+          class="absolute inset-0 flex items-center justify-center"
+        >
           <span class="text-9xl opacity-20">🏨</span>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+
+        <!-- Overlay gradient -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+        <!-- Boutons navigation -->
+        <template v-if="store.resource.images_list?.length > 1">
+          <button
+            @click="prevImage"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center transition-all hover:scale-110"
+          >
+            ←
+          </button>
+          <button
+            @click="nextImage"
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white rounded-full flex items-center justify-center transition-all hover:scale-110"
+          >
+            →
+          </button>
+        </template>
 
         <!-- Back button -->
         <div class="absolute top-6 left-6">
@@ -35,15 +74,43 @@
 
         <!-- Badge catégorie -->
         <div class="absolute top-6 right-6">
-          <span class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-xl">
-            {{ store.resource.category?.name }}
-          </span>
+        <span class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-xl">
+          {{ store.resource.category?.name }}
+        </span>
         </div>
 
-        <!-- Titre sur l'image -->
-        <div class="absolute bottom-6 left-6 right-6">
+        <!-- Titre -->
+        <div class="absolute bottom-16 left-6 right-6">
           <h1 class="text-3xl font-bold text-white">{{ store.resource.name }}</h1>
           <p class="text-white/80 mt-1">📍 {{ store.resource.location }}</p>
+        </div>
+
+        <!-- Miniatures + indicateurs -->
+        <div class="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2">
+          <template v-if="store.resource.images_list?.length > 1">
+            <!-- Miniatures cliquables -->
+            <div class="flex gap-2 bg-black/30 backdrop-blur-sm rounded-2xl p-2">
+              <button
+                v-for="(img, index) in store.resource.images_list"
+                :key="img.id"
+                @click="goToImage(index)"
+                class="relative w-12 h-12 rounded-xl overflow-hidden transition-all duration-300"
+                :class="currentImageIndex === index
+            ? 'ring-2 ring-white scale-110'
+            : 'opacity-60 hover:opacity-100'"
+              >
+                <img :src="img.url" class="w-full h-full object-cover" />
+              </button>
+            </div>
+          </template>
+
+          <!-- Compteur -->
+          <div
+            v-if="store.resource.images_list?.length > 1"
+            class="bg-black/30 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium"
+          >
+            {{ currentImageIndex + 1 }} / {{ store.resource.images_list.length }}
+          </div>
         </div>
       </div>
 
@@ -247,7 +314,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted , onUnmounted} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useResourcesStore } from '@/stores/resources'
 import { useAuthStore } from '@/stores/auth'
@@ -272,6 +339,7 @@ const booking = ref({
 const currentMonth = ref(new Date().getMonth() + 1)
 const currentYear  = ref(new Date().getFullYear())
 const availability = ref(null)
+const activeImage = ref(null)
 
 const monthNames = [
   'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
@@ -383,8 +451,65 @@ async function handleBooking() {
   }
 }
 
+// ✅ Carrousel
+const currentImageIndex = ref(0)
+let autoplayInterval    = null
+
+function nextImage() {
+  const total = store.resource?.images_list?.length || 0
+  if (total === 0) return
+  currentImageIndex.value = (currentImageIndex.value + 1) % total
+}
+
+function prevImage() {
+  const total = store.resource?.images_list?.length || 0
+  if (total === 0) return
+  currentImageIndex.value = (currentImageIndex.value - 1 + total) % total
+}
+
+function goToImage(index) {
+  currentImageIndex.value = index
+  resetAutoplay()
+}
+
+function startAutoplay() {
+  const total = store.resource?.images_list?.length || 0
+  if (total <= 1) return
+  autoplayInterval = setInterval(() => {
+    nextImage()
+  }, 4000) // ✅ Change d'image toutes les 4 secondes
+}
+
+function resetAutoplay() {
+  clearInterval(autoplayInterval)
+  startAutoplay()
+}
+
+function stopAutoplay() {
+  clearInterval(autoplayInterval)
+}
+
 onMounted(async () => {
   await store.fetchResource(route.params.id)
   await loadAvailability()
+  startAutoplay() // ✅ Lance le défilement automatique
 })
+
+onUnmounted(() => {
+  stopAutoplay() // ✅ Nettoie l'intervalle quand on quitte la page
+})
+
+
 </script>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.6s ease;
+  position: absolute;
+  inset: 0;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

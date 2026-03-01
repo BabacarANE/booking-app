@@ -4,10 +4,18 @@
     class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 block"
     :class="{ 'md:col-span-1 ring-2 ring-blue-200': featured }"
   >
+
     <!-- Image -->
-    <div class="relative h-52 overflow-hidden"
-         :class="featured ? 'bg-gradient-to-br from-blue-500 to-indigo-600' : 'bg-gradient-to-br from-blue-100 to-blue-200'"
-    >
+    <div class="relative h-52 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200">
+      <img
+        v-if="primaryImage"
+        :src="primaryImage"
+        :alt="resource.name"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+      <div v-else class="absolute inset-0 flex items-center justify-center">
+        <span class="text-7xl opacity-40">🏨</span>
+      </div>
       <div class="absolute inset-0 flex items-center justify-center">
         <span class="text-7xl opacity-80">🏨</span>
       </div>
@@ -79,8 +87,16 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+
+const props = defineProps({
   resource: { type: Object, required: true },
   featured: { type: Boolean, default: false },
+})
+
+const primaryImage = computed(() => {
+  if (!props.resource.images_list?.length) return null
+  const primary = props.resource.images_list.find(i => i.is_primary)
+  return primary?.url || props.resource.images_list[0]?.url
 })
 </script>

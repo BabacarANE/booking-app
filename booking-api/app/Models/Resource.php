@@ -45,4 +45,14 @@ class Resource extends Model
     {
         return $this->hasMany(Availability::class);
     }
+
+    public function images_list()
+    {
+        return $this->hasMany(ResourceImage::class)->orderBy('order');
+    }
+
+    public function primaryImage()
+    {
+        return $this->hasOne(ResourceImage::class)->where('is_primary', true);
+    }
 }

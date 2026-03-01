@@ -63,6 +63,17 @@
           <label for="is_active" class="text-sm text-gray-700">Ressource active</label>
         </div>
 
+        <div v-if="resource">
+          <label class="block text-sm font-medium text-gray-700 mb-2">Images</label>
+          <ImageUploader
+            :resource-id="resource.id"
+            @updated="$emit('saved')"
+          />
+        </div>
+        <p v-else class="text-xs text-gray-400 bg-gray-50 rounded-xl p-3 text-center">
+          💡 Sauvegardez d'abord la ressource pour ajouter des images
+        </p>
+
         <p v-if="error" class="text-red-500 text-sm">{{ error }}</p>
 
         <div class="flex gap-3 pt-2">
@@ -85,6 +96,7 @@
 import { ref, onMounted } from 'vue'
 import { useAdminStore } from '@/stores/admin'
 import { useResourcesStore } from '@/stores/resources'
+import ImageUploader from '@/components/admin/ImageUploader.vue'
 
 const props = defineProps({
   resource: { type: Object, default: null },

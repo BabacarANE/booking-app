@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Admin\ImageController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\AdminController;
@@ -40,5 +42,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/bookings', AdminBookingController::class);
         Route::get('/users', [AdminController::class, 'users']);
         Route::patch('/users/{user}/role', [AdminController::class, 'updateRole']);
+
+        Route::post('/resources/{resource}/images', [ImageController::class, 'upload']);
+        Route::delete('/images/{image}', [ImageController::class, 'destroy']);
+        Route::patch('/images/{image}/primary', [ImageController::class, 'setPrimary']);
     });
 });

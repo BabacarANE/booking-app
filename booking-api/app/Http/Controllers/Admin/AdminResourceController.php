@@ -12,7 +12,7 @@ class AdminResourceController extends Controller
 {
     public function index()
     {
-        $resources = Resource::with('category')->latest()->paginate(20);
+        $resources = Resource::with(['category', 'images_list'])->latest()->paginate(20);
         return ResourceResource::collection($resources);
     }
 

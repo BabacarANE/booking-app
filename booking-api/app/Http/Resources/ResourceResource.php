@@ -16,10 +16,22 @@ class ResourceResource extends JsonResource
             'price_per_night' => $this->price_per_night,
             'capacity'        => $this->capacity,
             'amenities'       => $this->amenities,
-            'images'          => $this->images,
             'location'        => $this->location,
             'is_active'       => $this->is_active,
             'category'        => new CategoryResource($this->whenLoaded('category')),
+            // ✅ Nouvelles images
+            'images_list'     => $this->whenLoaded('images_list', fn() =>
+            $this->images_list->map(fn($img) => [
+                'id'         => $img->id,
+                'url'        => asset($img->url),
+                'is_primary' => $img->is_primary,
+                'order'      => $img->order,
+            ])
+            ),
+            'primary_image'   => $this->whenLoaded('images_list',
+                fn() => $this->images_list->firstWhere('is_primary', true)?->url
+                    ?? $this->images_list->first()?->url
+            ),
         ];
     }
 }

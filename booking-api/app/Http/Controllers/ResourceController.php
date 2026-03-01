@@ -12,7 +12,7 @@ class ResourceController extends Controller
     // ✅ Liste avec filtres
     public function index(Request $request)
     {
-        $query = Resource::with('category')->where('is_active', true);
+        $query = Resource::with(['category', 'images_list'])->where('is_active', true);
 
         // Filtre par catégorie
         if ($request->filled('category')) {
@@ -79,7 +79,7 @@ class ResourceController extends Controller
     // ✅ Détail d'une ressource
     public function show($id)
     {
-        $resource = Resource::with('category')->findOrFail($id);
+        $resource = Resource::with(['category', 'images_list'])->findOrFail($id);
 
         return new ResourceResource($resource);
     }
