@@ -1,11 +1,16 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminResourceController;
+use App\Http\Controllers\Admin\AdminBookingController;
+
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\PaymentController;
+
 
 // Routes publiques
 Route::post('/register', [AuthController::class, 'register']);
@@ -27,7 +32,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/payments/confirm', [PaymentController::class, 'confirm']);
 
     // Routes Admin
-    Route::middleware('can:admin')->prefix('admin')->group(function () {
-        // À remplir en Phase 3
+
+    Route::middleware(['auth:sanctum', 'can:isAdmin'])->prefix('admin')->group(function () {
+        Route::get('/stats', [AdminController::class, 'stats']);
+
+        Route::apiResource('/resources', AdminResourceController::class);
+        Route::apiResource('/bookings', AdminBookingController::class);
+        Route::get('/users', [AdminController::class, 'users']);
+        Route::patch('/users/{user}/role', [AdminController::class, 'updateRole']);
     });
 });
