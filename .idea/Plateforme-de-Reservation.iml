@@ -125,6 +125,11 @@
       <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/booking-api/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/booking-api/storage/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/knuckleswtf/scribe" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/mpociot/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/parsedown/parsedown" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/shalvah/upgrader" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/symfony/var-exporter" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

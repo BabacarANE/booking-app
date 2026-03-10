@@ -1,44 +1,85 @@
-# booking-frontend
+# 🏨 Booking Platform — Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Interface utilisateur SPA pour la plateforme de réservation.
 
-## Recommended IDE Setup
+**Stack :** Vue.js 3 · Vite · Tailwind CSS v4 · Pinia · Vue Router 4 · Stripe.js
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+## 🚀 Installation
+```bash
+git clone https://github.com/ton-user/booking-frontend.git
+cd booking-frontend
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Configuration `.env`
+```env
+VITE_API_URL=http://localhost:8000/api
+VITE_STRIPE_KEY=pk_test_xxx
+```
 
-```sh
+### Lancer en développement
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
+### Build production
+```bash
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+---
 
-```sh
-npm run lint
+## 📁 Structure
 ```
+src/
+├── pages/
+│   ├── HomePage.vue           Page d'accueil
+│   ├── ResourcesPage.vue      Catalogue avec filtres
+│   ├── ResourceDetailPage.vue Détail + calendrier + réservation
+│   ├── CheckoutPage.vue       Tunnel de paiement Stripe
+│   ├── DashboardPage.vue      Profil utilisateur
+│   ├── BookingsPage.vue       Historique réservations
+│   ├── auth/
+│   │   ├── LoginPage.vue
+│   │   └── RegisterPage.vue
+│   └── admin/
+│       └── AdminPage.vue      Panel administrateur
+├── components/
+│   ├── ui/                    Header, Footer
+│   ├── resource/              ResourceCard
+│   ├── booking/               BookingCard
+│   └── admin/                 ResourceModal, ImageUploader
+├── stores/
+│   ├── auth.js                Authentification (Pinia)
+│   ├── resources.js           Ressources + disponibilités
+│   ├── booking.js             Réservations + paiement
+│   └── admin.js               Panel admin
+├── services/
+│   └── api.js                 Axios + intercepteurs
+└── router/
+    └── index.js               Routes + guards
+```
+
+---
+
+## 🔐 Rôles et accès
+
+| Page | Client | Admin/Manager |
+|------|--------|---------------|
+| Catalogue | ✅ | ✅ |
+| Réservation | ✅ | ✅ |
+| Dashboard | ✅ | ✅ |
+| Panel Admin | ❌ | ✅ |
+
+---
+
+## 💳 Paiement Stripe
+
+Le tunnel de paiement suit 3 étapes :
+1. **Récapitulatif** — Vérification des dates et du prix
+2. **Paiement** — Formulaire Stripe Elements sécurisé
+3. **Confirmation** — Email envoyé automatiquement
+
+Carte de test : `4242 4242 4242 4242` · `12/29` · `123`

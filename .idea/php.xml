@@ -132,6 +132,11 @@
       <path value="$PROJECT_DIR$/booking-api/vendor/dragonmantank/cron-expression" />
       <path value="$PROJECT_DIR$/booking-api/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/booking-api/vendor/stripe/stripe-php" />
+      <path value="$PROJECT_DIR$/booking-api/vendor/mpociot/reflection-docblock" />
+      <path value="$PROJECT_DIR$/booking-api/vendor/symfony/var-exporter" />
+      <path value="$PROJECT_DIR$/booking-api/vendor/parsedown/parsedown" />
+      <path value="$PROJECT_DIR$/booking-api/vendor/shalvah/upgrader" />
+      <path value="$PROJECT_DIR$/booking-api/vendor/knuckleswtf/scribe" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

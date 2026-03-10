@@ -1,59 +1,259 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏨 Booking Platform — API Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API REST complète pour une plateforme de réservation (hôtels, salles, services).
 
-## About Laravel
+**Stack :** Laravel 12 · PostgreSQL · Redis · Stripe · Laravel Sanctum
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Prérequis
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2+
+- PostgreSQL 14+
+- Redis (Memurai sur Windows)
+- Composer
+- Compte Stripe (mode test)
+- Compte Mailtrap (emails dev)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Clone et install
+```bash
+git clone https://github.com/ton-user/booking-api.git
+cd booking-api
+composer install
+```
 
-## Laravel Sponsors
+### 2. Configuration
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Remplis `.env` :
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=booking_db
+DB_USERNAME=postgres
+DB_PASSWORD=ton_mot_de_passe
 
-### Premium Partners
+REDIS_CLIENT=predis
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+STRIPE_KEY=pk_test_xxx
+STRIPE_SECRET=sk_test_xxx
 
-## Contributing
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=ton_username
+MAIL_PASSWORD=ton_password
+MAIL_SCHEME=smtp
+MAIL_FROM_ADDRESS=noreply@booking.com
+MAIL_FROM_NAME="Booking Platform"
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Base de données
+```bash
+php artisan migrate --seed
+```
 
-## Code of Conduct
+### 4. Storage
+```bash
+php artisan storage:link
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Lance les serveurs
+```bash
+# Terminal 1 — API
+php artisan serve
 
-## Security Vulnerabilities
+# Terminal 2 — Queue workers (emails, tâches async)
+php artisan queue:work
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Terminal 3 — Scheduler (expiration réservations, rappels)
+php artisan schedule:work
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🔑 Comptes de démo
+
+| Rôle | Email | Mot de passe |
+|------|-------|--------------|
+| Admin | admin@booking.com | password |
+| Manager | manager@booking.com | password |
+| Client | client@booking.com | password |
+
+---
+
+## 📡 API Endpoints
+
+Documentation interactive disponible sur `/docs` après `php artisan scribe:generate`.
+
+### Authentification
+```
+POST /api/register     Inscription
+POST /api/login        Connexion (retourne token Sanctum)
+POST /api/logout       Déconnexion
+GET  /api/user         Profil utilisateur connecté
+```
+
+### Ressources
+```
+GET  /api/categories                    Liste des catégories
+GET  /api/resources                     Liste avec filtres
+GET  /api/resources/{id}                Détail
+GET  /api/resources/{id}/availability   Disponibilités par mois
+```
+
+### Réservations (auth requise)
+```
+POST   /api/bookings        Créer une réservation
+GET    /api/bookings        Mes réservations
+GET    /api/bookings/{id}   Détail
+PATCH  /api/bookings/{id}   Modifier
+DELETE /api/bookings/{id}   Annuler
+```
+
+### Paiements (auth requise)
+```
+POST /api/payments          Créer un Payment Intent Stripe
+POST /api/payments/confirm  Confirmer après paiement
+```
+
+### Admin (auth + rôle admin/manager)
+```
+GET   /api/admin/stats                  Dashboard stats
+GET   /api/admin/resources              Liste ressources
+POST  /api/admin/resources              Créer ressource
+PUT   /api/admin/resources/{id}         Modifier ressource
+DELETE /api/admin/resources/{id}        Désactiver ressource
+POST  /api/admin/resources/{id}/images  Upload images
+GET   /api/admin/bookings               Liste réservations
+PATCH /api/admin/bookings/{id}          Modifier statut
+GET   /api/admin/users                  Liste utilisateurs
+PATCH /api/admin/users/{id}/role        Modifier rôle
+```
+
+---
+
+## 💳 Paiement Stripe (mode test)
+
+Carte de test :
+```
+Numéro   : 4242 4242 4242 4242
+Expiration: 12/29
+CVC      : 123
+```
+
+---
+
+## 🧪 Tests
+```bash
+# Crée la base de test
+psql -U postgres -c "CREATE DATABASE booking_db_test;"
+
+# Lance les tests
+php artisan test
+
+# Avec couverture
+php artisan test --coverage
+```
+
+**Suite de tests :**
+- `AuthTest` — Inscription, connexion, déconnexion
+- `ResourceTest` — Listing, filtres, détail
+- `BookingTest` — Création, conflit, annulation, prix
+- `AvailabilityServiceTest` — Logique disponibilités
+
+---
+
+## 🏗️ Architecture
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php
+│   │   ├── ResourceController.php
+│   │   ├── BookingController.php
+│   │   ├── PaymentController.php
+│   │   └── Admin/
+│   │       ├── AdminController.php
+│   │       ├── AdminResourceController.php
+│   │       ├── AdminBookingController.php
+│   │       └── ImageController.php
+│   └── Resources/          # API Resources (transformateurs)
+├── Models/                 # Eloquent Models
+├── Services/
+│   └── AvailabilityService.php
+├── Mail/                   # Mailables (confirmation, annulation, rappel)
+└── Console/Commands/       # Scheduler commands
+```
+
+### Modèles et relations
+```
+User          → hasMany Bookings
+Resource      → belongsTo Category
+              → hasMany Bookings
+              → hasMany Availabilities
+              → hasMany ResourceImages
+Booking       → belongsTo User, Resource
+              → hasOne Payment
+Payment       → belongsTo Booking
+Availability  → belongsTo Resource
+```
+
+---
+
+## 📧 Notifications Email
+
+| Événement | Template |
+|-----------|----------|
+| Paiement confirmé | `emails.booking-confirmed` |
+| Réservation annulée | `emails.booking-cancelled` |
+| Rappel J-1 | `emails.booking-reminder` |
+
+Toutes les notifications sont envoyées via **Laravel Queue** (asynchrone).
+
+---
+
+## ⚙️ Commandes utiles
+```bash
+# Expirer les réservations non payées
+php artisan bookings:expire-pending
+
+# Envoyer les rappels J-1
+php artisan bookings:send-reminders
+
+# Régénérer la doc API
+php artisan scribe:generate
+
+# Vider les caches
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+```
+
+---
+
+## 🚀 Déploiement production
+```bash
+composer install --optimize-autoloader --no-dev
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan migrate --force
+```
+
+Variables d'env supplémentaires en prod :
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://ton-domaine.com
+```
