@@ -2,11 +2,11 @@
   <RouterLink
     :to="`/resources/${resource.id}`"
     class="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 block"
-    :class="{ 'md:col-span-1 ring-2 ring-blue-200': featured }"
+    :class="{ 'md:col-span-1 ring-2 ring-coral-200': featured }"
   >
 
     <!-- Image -->
-    <div class="relative h-52 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-200">
+    <div class="relative h-52 overflow-hidden bg-gradient-to-br from-coral-100 to-coral-200">
       <img
         v-if="primaryImage"
         :src="primaryImage"
@@ -35,13 +35,13 @@
       </div>
 
       <!-- Overlay hover -->
-      <div class="absolute inset-0 bg-blue-900/0 group-hover:bg-blue-900/10 transition-colors duration-300" />
+      <div class="absolute inset-0 bg-coral-900/0 group-hover:bg-coral-900/10 transition-colors duration-300" />
     </div>
 
     <div class="p-5">
       <div class="flex items-start justify-between gap-2">
         <div class="flex-1 min-w-0">
-          <h3 class="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors truncate">
+          <h3 class="text-base font-bold text-gray-900 group-hover:text-coral-500 transition-colors truncate">
             {{ resource.name }}
           </h3>
           <p class="text-gray-400 text-sm mt-0.5 flex items-center gap-1">
@@ -50,7 +50,7 @@
           </p>
         </div>
         <div class="text-right shrink-0">
-          <p class="text-lg font-bold text-blue-600">{{ resource.price_per_night }}€</p>
+          <p class="text-lg font-bold text-coral-500">{{ resource.price_per_night }}€</p>
           <p class="text-xs text-gray-400">/ nuit</p>
         </div>
       </div>
@@ -78,7 +78,7 @@
           <span>👥</span>
           <span>{{ resource.capacity }} pers. max</span>
         </div>
-        <span class="text-xs font-semibold text-blue-600 group-hover:underline">
+        <span class="text-xs font-semibold text-coral-500 group-hover:underline">
           Voir →
         </span>
       </div>

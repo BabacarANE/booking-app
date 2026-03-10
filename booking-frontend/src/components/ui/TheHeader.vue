@@ -4,34 +4,37 @@
       <div class="flex justify-between items-center h-16">
 
         <!-- Logo -->
+
         <RouterLink to="/" class="flex items-center gap-2 group">
-          <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center group-hover:bg-blue-700 transition-colors">
-            <span class="text-white text-lg">🏨</span>
-          </div>
-          <span class="font-bold text-xl text-gray-900">Booking<span class="text-blue-600">App</span></span>
+          <img
+            src="/favicon.ico"
+            alt="BookingApp"
+            class="w-9 h-9 rounded-xl group-hover:scale-105 transition-transform"
+          />
+          <span class="font-bold text-xl text-gray-900">Booking<span class="text-coral-500">App</span></span>
         </RouterLink>
 
         <!-- Navigation centre -->
         <nav class="hidden md:flex items-center gap-1">
           <RouterLink
             to="/"
-            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
-            :class="{ 'text-blue-600 bg-blue-50': $route.path === '/' }"
+            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-coral-500 hover:bg-coral-50 transition-all"
+            :class="{ 'text-coral-500 bg-coral-50': $route.path === '/' }"
           >
             Accueil
           </RouterLink>
           <RouterLink
             to="/resources"
-            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
-            :class="{ 'text-blue-600 bg-blue-50': $route.path.startsWith('/resources') }"
+            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-coral-500 hover:bg-coral-50 transition-all"
+            :class="{ 'text-coral-500 bg-coral-50': $route.path.startsWith('/resources') }"
           >
             Hébergements
           </RouterLink>
           <RouterLink
             v-if="auth.isAdmin || auth.isManager"
             to="/admin"
-            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
-            :class="{ 'text-blue-600 bg-blue-50': $route.path.startsWith('/admin') }"
+            class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-coral-500 hover:bg-coral-50 transition-all"
+            :class="{ 'text-coral-500 bg-coral-50': $route.path.startsWith('/admin') }"
           >
             Admin
           </RouterLink>
@@ -45,7 +48,7 @@
               to="/dashboard"
               class="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors"
             >
-              <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              <div class="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
                 {{ auth.user?.name?.charAt(0).toUpperCase() }}
               </div>
               <span class="text-sm font-medium text-gray-700">{{ auth.user?.name }}</span>
@@ -60,13 +63,13 @@
           <template v-else>
             <RouterLink
               to="/login"
-              class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-all"
+              class="px-4 py-2 rounded-xl text-sm font-medium text-gray-600 hover:text-coral-500 hover:bg-coral-50 transition-all"
             >
               Connexion
             </RouterLink>
             <RouterLink
               to="/register"
-              class="px-4 py-2 rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm"
+              class="px-4 py-2 rounded-xl text-sm font-medium bg-coral-500 text-white hover:bg-coral-600 transition-colors shadow-sm"
             >
               S'inscrire
             </RouterLink>

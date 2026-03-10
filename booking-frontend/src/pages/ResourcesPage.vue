@@ -16,7 +16,7 @@
               v-model="filters.location"
               type="text"
               placeholder="Paris, Lyon..."
-              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
             />
           </div>
 
@@ -26,7 +26,7 @@
             <input
               v-model="filters.check_in"
               type="date"
-              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
             />
           </div>
           <div class="mb-5">
@@ -34,7 +34,7 @@
             <input
               v-model="filters.check_out"
               type="date"
-              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
             />
           </div>
 
@@ -48,7 +48,7 @@
               type="range"
               min="1"
               max="20"
-              class="w-full accent-blue-600"
+              class="w-full accent-coral-500"
             />
           </div>
 
@@ -63,7 +63,7 @@
               min="50"
               max="1000"
               step="10"
-              class="w-full accent-blue-600"
+              class="w-full accent-coral-500"
             />
           </div>
 
@@ -80,7 +80,7 @@
                   type="radio"
                   :value="cat.slug"
                   v-model="filters.category"
-                  class="accent-blue-600"
+                  class="accent-coral-500"
                 />
                 <span class="text-sm text-gray-700">{{ cat.name }}</span>
               </label>
@@ -89,7 +89,7 @@
                   type="radio"
                   value=""
                   v-model="filters.category"
-                  class="accent-blue-600"
+                  class="accent-coral-500"
                 />
                 <span class="text-sm text-gray-700">Toutes</span>
               </label>
@@ -99,7 +99,7 @@
           <!-- Boutons -->
           <button
             @click="applyFilters"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition-colors"
+            class="w-full bg-coral-500 hover:bg-coral-600 text-white font-medium py-2.5 rounded-xl transition-colors"
           >
             Appliquer
           </button>
@@ -123,7 +123,7 @@
           <select
             v-model="sortBy"
             @change="applyFilters()"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
           >
             <option value="price_per_night_asc">Prix croissant</option>
             <option value="price_per_night_desc">Prix décroissant</option>
@@ -168,7 +168,7 @@
             :class="[
               'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
               page === store.pagination.current_page
-                ? 'bg-blue-600 text-white'
+                ? 'bg-coral-500 text-white'
                 : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
             ]"
           >

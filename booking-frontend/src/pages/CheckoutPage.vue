@@ -22,7 +22,7 @@
                 currentStep > index
                   ? 'bg-green-500 text-white'
                   : currentStep === index
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-coral-500 text-white'
                     : 'bg-gray-200 text-gray-400'
               ]"
             >
@@ -32,7 +32,7 @@
             <span
               :class="[
                 'text-sm font-medium',
-                currentStep === index ? 'text-blue-600' : 'text-gray-400'
+                currentStep === index ? 'text-coral-500' : 'text-gray-400'
               ]"
             >
               {{ step.label }}
@@ -83,7 +83,7 @@
               </div>
               <div class="flex justify-between font-bold text-gray-900 pt-3 border-t border-gray-200">
                 <span>Total à payer</span>
-                <span class="text-blue-600 text-lg">{{ booking.total_price }}€</span>
+                <span class="text-coral-500 text-lg">{{ booking.total_price }}€</span>
               </div>
             </div>
 
@@ -97,7 +97,7 @@
               <button
                 @click="proceedToPayment"
                 :disabled="loadingIntent"
-                class="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-bold transition-colors"
+                class="flex-1 bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-bold transition-colors"
               >
                 {{ loadingIntent ? '⏳ Chargement...' : 'Procéder au paiement →' }}
               </button>
@@ -117,8 +117,16 @@
             <p v-if="paymentError" class="text-red-500 text-sm bg-red-50 rounded-xl p-3 mb-4">
               ⚠️ {{ paymentError }}
             </p>
+            <div v-if="currentStep === 0" class="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-xl px-4 py-3 mb-4">
+              <span class="text-orange-500">⏱️</span>
+              <p class="text-sm text-orange-700">
+                Votre réservation est réservée pendant
+                <strong>{{ timerDisplay }}</strong> — complétez le paiement avant expiration.
+              </p>
+            </div>
 
             <div class="flex gap-3">
+
               <button
                 @click="currentStep = 0"
                 class="flex-1 border border-gray-200 text-gray-600 py-3 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
@@ -128,7 +136,7 @@
               <button
                 @click="handlePayment"
                 :disabled="processingPayment"
-                class="flex-1 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
+                class="flex-1 bg-teal-500 hover:bg-teal-600 disabled:opacity-50 text-white py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2"
               >
                 <span v-if="processingPayment">⏳ Traitement...</span>
                 <span v-else>🔒 Payer {{ booking.total_price }}€</span>
@@ -146,7 +154,7 @@
 
           <!-- Étape 3 — Confirmation -->
           <div v-if="currentStep === 2" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
-            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <span class="text-4xl">✅</span>
             </div>
             <h2 class="text-2xl font-bold text-gray-900 mb-3">Paiement confirmé !</h2>
@@ -157,7 +165,7 @@
               Un email de confirmation a été envoyé à <strong>{{ auth.user?.email }}</strong>
             </p>
 
-            <div class="bg-green-50 rounded-2xl p-5 text-left space-y-2 mb-8 max-w-xs mx-auto">
+            <div class="bg-teal-50 rounded-2xl p-5 text-left space-y-2 mb-8 max-w-xs mx-auto">
               <div class="flex justify-between text-sm">
                 <span class="text-gray-500">Hébergement</span>
                 <span class="font-semibold">{{ booking.resource?.name }}</span>
@@ -170,7 +178,7 @@
                 <span class="text-gray-500">Départ</span>
                 <span class="font-semibold">{{ formatDate(booking.check_out_date) }}</span>
               </div>
-              <div class="flex justify-between text-sm font-bold text-green-600 pt-2 border-t border-green-200">
+              <div class="flex justify-between text-sm font-bold text-teal-600 pt-2 border-t border-teal-200">
                 <span>Montant payé</span>
                 <span>{{ booking.total_price }}€</span>
               </div>
@@ -179,7 +187,7 @@
             <div class="flex gap-3 justify-center">
               <RouterLink
                 to="/dashboard"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-colors"
+                class="bg-coral-500 hover:bg-coral-600 text-white px-8 py-3 rounded-xl font-semibold transition-colors"
               >
                 Voir mes réservations
               </RouterLink>
@@ -213,7 +221,7 @@
               </div>
               <div class="flex justify-between font-bold text-gray-900 pt-3 border-t text-base">
                 <span>Total</span>
-                <span class="text-blue-600">{{ booking.total_price }}€</span>
+                <span class="text-coral-500">{{ booking.total_price }}€</span>
               </div>
             </div>
 
@@ -255,7 +263,10 @@ const loadingIntent    = ref(false)
 const processingPayment = ref(false)
 const paymentError     = ref(null)
 const booking          = ref({})
+const timeLeft   = ref(15 * 60)
 
+
+let timerInterval = null
 let stripe        = null
 let elements      = null
 let paymentElement = null
@@ -272,6 +283,25 @@ const nights = computed(() => {
   return Math.floor(diff / (1000 * 60 * 60 * 24))
 })
 
+const timerDisplay = computed(() => {
+  const minutes = Math.floor(timeLeft.value / 60)
+  const seconds = timeLeft.value % 60
+  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+})
+
+function startTimer() {
+  timerInterval = setInterval(async () => {
+    timeLeft.value--
+    if (timeLeft.value <= 0) {
+      clearInterval(timerInterval)
+      // Annuler la réservation automatiquement
+      await api.delete(`/bookings/${booking.value.id}`)
+      alert('⏱️ Temps écoulé ! Votre réservation a été annulée.')
+      router.push('/resources')
+    }
+  }, 1000)
+}
+
 function formatDate(date) {
   if (!date) return ''
   return new Date(date).toLocaleDateString('fr-FR', {
@@ -285,7 +315,7 @@ async function proceedToPayment() {
   try {
     const { client_secret } = await bookingStore.createPaymentIntent(booking.value.id)
 
-    console.log('✅ Client secret reçu:', client_secret) // ← Debug
+
 
     currentStep.value = 1
     await new Promise(r => setTimeout(r, 300))
@@ -307,9 +337,9 @@ async function mountStripeElement(clientSecret) {
     appearance: {
       theme: 'stripe',
       variables: {
-        colorPrimary:    '#2563eb',
+        colorPrimary:    '#FF5A5F',
         colorBackground: '#ffffff',
-        colorText:       '#1f2937',
+        colorText:       '#484848',
         borderRadius:    '12px',
         fontFamily:      'system-ui, sans-serif',
       },
@@ -367,9 +397,11 @@ onMounted(async () => {
   } catch {
     router.push('/dashboard')
   }
+  startTimer()
 })
 
 onUnmounted(() => {
+  clearInterval(timerInterval)
   if (paymentElement) paymentElement.unmount()
 })
 </script>

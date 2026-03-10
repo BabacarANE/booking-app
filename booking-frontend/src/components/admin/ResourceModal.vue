@@ -14,13 +14,13 @@
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
           <input v-model="form.name" type="text" required
-                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400" />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
           <select v-model="form.category_id" required
-                  class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400">
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
           </select>
         </div>
@@ -29,25 +29,25 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Prix / nuit (€)</label>
             <input v-model="form.price_per_night" type="number" min="0" step="0.01" required
-                   class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                   class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400" />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Capacité</label>
             <input v-model="form.capacity" type="number" min="1" required
-                   class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                   class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400" />
           </div>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Localisation</label>
           <input v-model="form.location" type="text"
-                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400" />
         </div>
 
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
           <textarea v-model="form.description" rows="3"
-                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                    class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 resize-none" />
         </div>
 
         <div>
@@ -55,11 +55,11 @@
             Équipements (séparés par des virgules)
           </label>
           <input v-model="amenitiesInput" type="text" placeholder="WiFi, TV, Climatisation"
-                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                 class="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400" />
         </div>
 
         <div class="flex items-center gap-2">
-          <input v-model="form.is_active" type="checkbox" id="is_active" class="accent-blue-600" />
+          <input v-model="form.is_active" type="checkbox" id="is_active" class="accent-coral-500" />
           <label for="is_active" class="text-sm text-gray-700">Ressource active</label>
         </div>
 
@@ -82,7 +82,7 @@
             Annuler
           </button>
           <button type="submit" :disabled="loading"
-                  class="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2.5 rounded-xl text-sm font-medium transition-colors">
+                  class="flex-1 bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white py-2.5 rounded-xl text-sm font-medium transition-colors">
             {{ loading ? 'Enregistrement...' : 'Enregistrer' }}
           </button>
         </div>

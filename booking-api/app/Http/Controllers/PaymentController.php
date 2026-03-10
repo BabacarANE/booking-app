@@ -94,6 +94,9 @@ class PaymentController extends Controller
                 'payment_method' => $paymentIntent->payment_method,
             ]);
 
+            // ✅ Bloquer les dates dans la table availabilities
+            $this->blockDates($booking);
+
             return response()->json([
                 'message' => 'Paiement confirmé avec succès.',
                 'booking' => $booking->load(['resource', 'payment']),
@@ -104,5 +107,27 @@ class PaymentController extends Controller
             'message' => 'Le paiement n\'a pas pu être confirmé.',
             'status'  => $paymentIntent->status,
         ], 400);
+    }
+
+    private function blockDates(Booking $booking): void
+    {
+        $start = \Carbon\Carbon::parse($booking->check_in_date);
+        $end   = \Carbon\Carbon::parse($booking->check_out_date);
+
+        $current = $start->copy();
+
+        while ($current->lt($end)) {
+            \App\Models\Availability::updateOrCreate(
+                [
+                    'resource_id' => $booking->resource_id,
+                    'date'        => $current->toDateString(),
+                ],
+                [
+                    'is_available' => false,
+                    'reason'       => 'booked',
+                ]
+            );
+            $current->addDay();
+        }
     }
 }

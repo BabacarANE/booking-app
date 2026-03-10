@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
 Schedule::command('bookings:send-reminders')->dailyAt('08:00');
+Schedule::command('bookings:expire-pending')->everyFiveMinutes();
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());

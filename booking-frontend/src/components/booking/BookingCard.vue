@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row">
 
       <!-- Image -->
-      <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-full md:w-48 h-40 md:h-auto flex items-center justify-center shrink-0">
+      <div class="bg-gradient-to-br from-coral-100 to-coral-200 w-full md:w-48 h-40 md:h-auto flex items-center justify-center shrink-0">
         <span class="text-5xl">🏨</span>
       </div>
 
@@ -37,7 +37,7 @@
           </div>
           <div>
             <p class="text-xs text-gray-400 uppercase font-medium">Total</p>
-            <p class="font-semibold text-blue-600 mt-1">{{ booking.total_price }}€</p>
+            <p class="font-semibold text-coral-500 mt-1">{{ booking.total_price }}€</p>
           </div>
         </div>
 

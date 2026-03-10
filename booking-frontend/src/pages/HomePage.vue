@@ -2,7 +2,7 @@
   <div>
 
     <!-- Hero -->
-    <section class="relative bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 text-white overflow-hidden">
+    <section class="relative bg-gradient-to-br from-coral-600 via-coral-500 to-coral-700 text-white overflow-hidden">
       <!-- Background decoration -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full" />
@@ -17,9 +17,9 @@
 
         <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
           Trouvez votre<br />
-          <span class="text-yellow-300">séjour idéal</span>
+          <span class="text-white/90">séjour idéal</span>
         </h1>
-        <p class="text-xl text-blue-100 mb-12 max-w-2xl mx-auto">
+        <p class="text-xl text-coral-100 mb-12 max-w-2xl mx-auto">
           Réservez parmi nos meilleures chambres, suites et appartements en quelques clics
         </p>
 
@@ -62,7 +62,7 @@
             </div>
             <button
               @click="handleSearch"
-              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
+              class="bg-coral-500 hover:bg-coral-600 text-white font-semibold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg"
             >
               <span>🔍</span>
               <span>Rechercher</span>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- Stats -->
-        <div class="flex items-center justify-center gap-8 mt-12 text-sm text-blue-100">
+        <div class="flex items-center justify-center gap-8 mt-12 text-sm text-coral-100">
           <div class="flex items-center gap-2">
             <span class="text-2xl font-bold text-white">{{ store.resources.length }}+</span>
             <span>Hébergements</span>
@@ -103,10 +103,10 @@
           @click="goToCategory(cat.slug)"
           class="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg border border-gray-100 text-center transition-all duration-300 hover:-translate-y-2"
         >
-          <div class="w-14 h-14 bg-blue-50 group-hover:bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-colors duration-300">
+          <div class="w-14 h-14 bg-coral-50 group-hover:bg-coral-500 rounded-2xl flex items-center justify-center mx-auto mb-4 transition-colors duration-300">
             <span class="text-2xl">{{ getCategoryEmoji(cat.icon) }}</span>
           </div>
-          <h3 class="font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{{ cat.name }}</h3>
+          <h3 class="font-bold text-gray-800 group-hover:text-coral-500 transition-colors">{{ cat.name }}</h3>
           <p class="text-xs text-gray-400 mt-1">{{ cat.description }}</p>
         </button>
       </div>
@@ -122,7 +122,7 @@
           </div>
           <RouterLink
             to="/resources"
-            class="hidden md:flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors"
+            class="hidden md:flex items-center gap-2 text-coral-500 hover:text-coral-700 font-medium text-sm transition-colors"
           >
             Voir tout →
           </RouterLink>
@@ -140,7 +140,7 @@
         <div class="text-center mt-10 md:hidden">
           <RouterLink
             to="/resources"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition-colors inline-block"
+            class="bg-coral-500 hover:bg-coral-600 text-white px-8 py-3 rounded-xl font-semibold transition-colors inline-block"
           >
             Voir tous les hébergements →
           </RouterLink>
@@ -155,7 +155,7 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div v-for="feature in features" :key="feature.title" class="text-center">
-          <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div class="w-16 h-16 bg-coral-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <span class="text-3xl">{{ feature.icon }}</span>
           </div>
           <h3 class="text-lg font-bold text-gray-900 mb-2">{{ feature.title }}</h3>

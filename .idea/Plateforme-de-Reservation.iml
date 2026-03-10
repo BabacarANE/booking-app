@@ -123,6 +123,8 @@
       <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/tijsverkoyen/css-to-inline-styles" />
       <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/booking-api/vendor/voku/portable-ascii" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/storage/app" />
+      <excludeFolder url="file://$MODULE_DIR$/booking-api/storage/framework" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -16,7 +16,7 @@
             v-model="form.name"
             type="text"
             placeholder="John Doe"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral-400"
             required
           />
         </div>
@@ -27,7 +27,7 @@
             v-model="form.email"
             type="email"
             placeholder="votre@email.com"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral-400"
             required
           />
         </div>
@@ -38,7 +38,7 @@
             v-model="form.phone"
             type="tel"
             placeholder="+33600000000"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral-400"
           />
         </div>
 
@@ -48,7 +48,7 @@
             v-model="form.password"
             type="password"
             placeholder="••••••••"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral-400"
             required
           />
         </div>
@@ -59,7 +59,7 @@
             v-model="form.password_confirmation"
             type="password"
             placeholder="••••••••"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-coral-400"
             required
           />
         </div>
@@ -69,7 +69,7 @@
         <button
           type="submit"
           :disabled="loading"
-          class="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2.5 rounded-lg transition-colors"
+          class="w-full bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white font-medium py-2.5 rounded-xl transition-colors"
         >
           {{ loading ? 'Inscription...' : 'S\'inscrire' }}
         </button>
@@ -78,7 +78,7 @@
 
       <p class="text-center text-sm text-gray-500 mt-6">
         Déjà un compte ?
-        <RouterLink to="/login" class="text-blue-600 hover:underline font-medium">
+        <RouterLink to="/login" class="text-coral-500 hover:underline font-medium">
           Se connecter
         </RouterLink>
       </p>

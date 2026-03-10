@@ -10,12 +10,12 @@
       :class="[
         'border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all duration-200',
         isDragging
-          ? 'border-blue-500 bg-blue-50 scale-[1.02]'
-          : 'border-gray-200 hover:border-blue-400 hover:bg-gray-50'
+          ? 'border-coral-500 bg-coral-50 scale-[1.02]'
+          : 'border-gray-200 hover:border-coral-400 hover:bg-gray-50'
       ]"
     >
       <div class="flex flex-col items-center gap-3">
-        <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">
+        <div class="w-14 h-14 bg-coral-50 rounded-2xl flex items-center justify-center text-2xl">
           📸
         </div>
         <div>
@@ -43,7 +43,7 @@
         <button
           @click="uploadImages"
           :disabled="uploading"
-          class="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors flex items-center gap-2"
+          class="bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white text-sm font-medium px-4 py-2 rounded-xl transition-colors flex items-center gap-2"
         >
           <span v-if="uploading">⏳ Upload...</span>
           <span v-else>⬆️ Uploader</span>
@@ -77,7 +77,7 @@
       <!-- Barre de progression -->
       <div v-if="uploading" class="w-full bg-gray-100 rounded-full h-2">
         <div
-          class="bg-blue-600 h-2 rounded-full transition-all duration-300"
+          class="bg-coral-500 h-2 rounded-full transition-all duration-300"
           :style="`width: ${uploadProgress}%`"
         />
       </div>
@@ -93,7 +93,7 @@
           v-for="image in existingImages"
           :key="image.id"
           class="relative group rounded-xl overflow-hidden border-2 aspect-video bg-gray-100 transition-all"
-          :class="image.is_primary ? 'border-blue-500' : 'border-transparent'"
+          :class="image.is_primary ? 'border-coral-500' : 'border-transparent'"
         >
           <img
             :src="image.url"
@@ -104,7 +104,7 @@
 
           <!-- Badge principale -->
           <div v-if="image.is_primary"
-               class="absolute top-2 left-2 bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+               class="absolute top-2 left-2 bg-coral-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
             ⭐ Principale
           </div>
 
@@ -113,7 +113,7 @@
             <button
               v-if="!image.is_primary"
               @click="setPrimary(image)"
-              class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              class="bg-coral-500 text-white text-xs px-3 py-1.5 rounded-lg font-medium hover:bg-coral-600 transition-colors"
             >
               ⭐ Principale
             </button>

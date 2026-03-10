@@ -50,7 +50,14 @@ class BookingController extends Controller
 
         // ✅ Vérification de disponibilité
         $conflict = Booking::where('resource_id', $resource->id)
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->where(function ($q) {
+                $q->where('status', 'confirmed')
+                    ->orWhere(function ($q) {
+                        // Pending avec paiement amorcé (payment_intent_id présent)
+                        $q->where('status', 'pending')
+                            ->whereNotNull('payment_intent_id');
+                    });
+            })
             ->where(function ($query) use ($validated) {
                 $query->whereBetween('check_in_date', [
                     $validated['check_in_date'],
@@ -146,14 +153,22 @@ class BookingController extends Controller
         }
 
         $booking->update(['status' => 'cancelled']);
-        // Mail annulation
-        Mail::to($request->user()->email)
-            ->queue(new BookingCancelled($booking->load(['user', 'resource'])));
+
+        // ✅ Libérer les dates
+        \App\Models\Availability::where('resource_id', $booking->resource_id)
+            ->whereBetween('date', [
+                $booking->check_in_date,
+                \Carbon\Carbon::parse($booking->check_out_date)->subDay()->toDateString()
+            ])
+            ->where('reason', 'booked')
+            ->update(['is_available' => true, 'reason' => null]);
+
+        // Email annulation
+        \Illuminate\Support\Facades\Mail::to($request->user()->email)
+            ->queue(new \App\Mail\BookingCancelled($booking->load(['user', 'resource'])));
 
         return response()->json([
             'message' => 'Réservation annulée avec succès.',
         ]);
-
-
     }
 }

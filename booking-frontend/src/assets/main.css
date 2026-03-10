@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@theme {
+  /* ── Corail — Couleur primaire ── */
+  --color-coral-50:  #FFF0F0;
+  --color-coral-100: #FFD6D7;
+  --color-coral-200: #FFB3B5;
+  --color-coral-300: #FF8A8D;
+  --color-coral-400: #FF7E82;
+  --color-coral-500: #FF5A5F;
+  --color-coral-600: #E04044;
+  --color-coral-700: #C0292D;
+  --color-coral-800: #8F1A1D;
+  --color-coral-900: #5C0D0F;
+
+  /* ── Teal — Couleur accent ── */
+  --color-teal-50:  #E6FAF8;
+  --color-teal-100: #B3F0EB;
+  --color-teal-200: #66DDD4;
+  --color-teal-300: #1FCFC4;
+  --color-teal-400: #00C4B8;
+  --color-teal-500: #00A699;
+  --color-teal-600: #008A7E;
+  --color-teal-700: #006D63;
+  --color-teal-800: #004F48;
+  --color-teal-900: #00302C;
+
+  /* ── Neutres ── */
+  --color-neutral-50:  #F7F7F7;
+  --color-neutral-100: #EBEBEB;
+  --color-neutral-200: #D6D6D6;
+  --color-neutral-300: #BDBDBD;
+  --color-neutral-400: #9E9E9E;
+  --color-neutral-500: #717171;
+  --color-neutral-600: #595959;
+  --color-neutral-700: #484848;
+  --color-neutral-800: #303030;
+  --color-neutral-900: #1A1A1A;
+
+  /* ── Shadows personnalisées ── */
+  --shadow-coral: 0 8px 24px rgba(255, 90, 95, 0.28);
+  --shadow-teal:  0 8px 24px rgba(0, 166, 153, 0.22);
+}

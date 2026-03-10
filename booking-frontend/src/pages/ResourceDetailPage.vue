@@ -17,7 +17,7 @@
     <div v-else-if="store.resource">
 
       <!-- Hero image / Galerie carrousel -->
-      <div class="relative h-96 overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-600">
+      <div class="relative h-96 overflow-hidden bg-gradient-to-br from-coral-500 to-coral-700">
 
         <!-- Images -->
         <transition-group name="fade">
@@ -127,7 +127,7 @@
 
               <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center">
                     <span>👥</span>
                   </div>
                   <div>
@@ -136,7 +136,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center">
                     <span>💰</span>
                   </div>
                   <div>
@@ -154,9 +154,9 @@
                 <div
                   v-for="amenity in store.resource.amenities"
                   :key="amenity"
-                  class="flex items-center gap-3 bg-green-50 rounded-xl px-4 py-3"
+                  class="flex items-center gap-3 bg-teal-50 rounded-xl px-4 py-3"
                 >
-                  <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center shrink-0">
+                  <div class="w-6 h-6 bg-teal-500 rounded-full flex items-center justify-center shrink-0">
                     <span class="text-white text-xs">✓</span>
                   </div>
                   <span class="text-gray-700 text-sm font-medium">{{ amenity }}</span>
@@ -212,10 +212,10 @@
                   <div class="w-4 h-4 bg-red-100 rounded-lg" /> Indisponible
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-blue-600 rounded-lg" /> Sélectionné
+                  <div class="w-4 h-4 bg-coral-500 rounded-lg" /> Sélectionné
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-blue-100 rounded-lg" /> Dans la plage
+                  <div class="w-4 h-4 bg-coral-100 rounded-lg" /> Dans la plage
                 </div>
               </div>
             </div>
@@ -227,13 +227,13 @@
             <div class="bg-white border border-gray-100 rounded-2xl shadow-lg sticky top-24 overflow-hidden">
 
               <!-- Header prix -->
-              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white text-center">
-                <p class="text-sm text-blue-100 mb-1">À partir de</p>
+              <div class="bg-gradient-to-r from-coral-500 to-coral-700 p-6 text-white text-center">
+                <p class="text-sm text-coral-100 mb-1">À partir de</p>
                 <div class="flex items-end justify-center gap-1">
                   <span class="text-4xl font-bold">{{ store.resource.price_per_night }}</span>
                   <span class="text-xl mb-1">€</span>
                 </div>
-                <p class="text-blue-100 text-sm">par nuit</p>
+                <p class="text-coral-100 text-sm">par nuit</p>
               </div>
 
               <div class="p-6 space-y-4">
@@ -246,7 +246,7 @@
                     v-model="booking.check_in"
                     type="date"
                     :min="today"
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
                   />
                 </div>
 
@@ -258,7 +258,7 @@
                     v-model="booking.check_out"
                     type="date"
                     :min="booking.check_in || today"
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
                   />
                 </div>
 
@@ -270,19 +270,19 @@
                     v-model="booking.special_requests"
                     rows="2"
                     placeholder="Chambre non-fumeur, lit bébé..."
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent resize-none"
                   />
                 </div>
 
                 <!-- Récap prix -->
-                <div v-if="nights > 0" class="bg-blue-50 rounded-xl p-4 space-y-2">
+                <div v-if="nights > 0" class="bg-coral-50 rounded-xl p-4 space-y-2">
                   <div class="flex justify-between text-sm text-gray-600">
                     <span>{{ store.resource.price_per_night }}€ × {{ nights }} nuit(s)</span>
                     <span class="font-medium">{{ totalPrice }}€</span>
                   </div>
-                  <div class="flex justify-between font-bold text-gray-900 pt-2 border-t border-blue-100">
+                  <div class="flex justify-between font-bold text-gray-900 pt-2 border-t border-coral-100">
                     <span>Total</span>
-                    <span class="text-blue-600 text-lg">{{ totalPrice }}€</span>
+                    <span class="text-coral-500 text-lg">{{ totalPrice }}€</span>
                   </div>
                 </div>
 
@@ -293,7 +293,7 @@
                 <button
                   @click="handleBooking"
                   :disabled="!nights || loading"
-                  class="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl"
+                  class="w-full bg-coral-500 hover:bg-coral-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl"
                 >
                   {{ loading ? '⏳ Réservation...' : nights ? `Réserver — ${totalPrice}€` : 'Sélectionnez des dates' }}
                 </button>
@@ -388,8 +388,8 @@ function getDayClass(day) {
     day.dateStr > booking.value.check_in && day.dateStr < booking.value.check_out
   const isPast     = day.dateStr < today
 
-  if (isSelected) return 'bg-blue-600 text-white font-bold'
-  if (inRange)     return 'bg-blue-100 text-blue-800'
+  if (isSelected) return 'bg-coral-500 text-white font-bold'
+  if (inRange)     return 'bg-coral-100 text-coral-700'
   if (!day.available || isPast) return 'bg-red-50 text-red-300 cursor-not-allowed'
   return 'hover:bg-green-100 text-gray-700'
 }

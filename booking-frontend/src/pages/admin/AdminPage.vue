@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50">
 
     <!-- Header Admin -->
-    <div class="bg-gradient-to-r from-gray-900 to-gray-800 text-white px-6 py-8">
+    <div class="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white px-6 py-8">
       <div class="max-w-7xl mx-auto">
         <div class="flex items-center justify-between">
           <div>
@@ -66,9 +66,9 @@
               :key="item.month"
               class="flex flex-col items-center gap-2 flex-1"
             >
-              <span class="text-sm font-bold text-blue-600">{{ item.count }}</span>
+              <span class="text-sm font-bold text-coral-500">{{ item.count }}</span>
               <div
-                class="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-xl transition-all duration-500"
+                class="w-full bg-gradient-to-t from-coral-600 to-coral-400 rounded-t-xl transition-all duration-500"
                 :style="`height: ${Math.max(20, (item.count / maxBookings) * 160)}px`"
               />
               <span class="text-xs text-gray-400 font-medium">{{ item.month }}</span>
@@ -82,7 +82,7 @@
             <h2 class="font-bold text-gray-900">Dernières réservations</h2>
             <button
               @click="activeTab = 'bookings'"
-              class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              class="text-coral-500 hover:text-coral-700 text-sm font-medium"
             >
               Voir tout →
             </button>
@@ -103,7 +103,7 @@
                 <p class="text-gray-400 text-xs">{{ booking.user?.email }}</p>
               </td>
               <td class="px-6 py-4 text-gray-600">{{ booking.resource?.name }}</td>
-              <td class="px-6 py-4 font-bold text-blue-600">{{ booking.total_price }}€</td>
+              <td class="px-6 py-4 font-bold text-coral-500">{{ booking.total_price }}€</td>
               <td class="px-6 py-4">
                   <span :class="statusClass(booking.status)" class="text-xs font-semibold px-3 py-1 rounded-full">
                     {{ statusLabel(booking.status) }}
@@ -124,7 +124,7 @@
           </div>
           <button
             @click="showResourceModal = true"
-            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+            class="bg-coral-500 hover:bg-coral-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
           >
             <span>+</span> Ajouter
           </button>
@@ -146,7 +146,7 @@
             <tr v-for="resource in store.resources" :key="resource.id" class="hover:bg-gray-50 transition-colors">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-coral-100 rounded-xl flex items-center justify-center">
                     <span>🏨</span>
                   </div>
                   <div>
@@ -156,11 +156,11 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                  <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
+                  <span class="bg-coral-50 text-coral-700 text-xs font-semibold px-3 py-1 rounded-full">
                     {{ resource.category?.name }}
                   </span>
               </td>
-              <td class="px-6 py-4 font-bold text-blue-600">{{ resource.price_per_night }}€</td>
+              <td class="px-6 py-4 font-bold text-coral-500">{{ resource.price_per_night }}€</td>
               <td class="px-6 py-4 text-gray-500">{{ resource.capacity }} pers.</td>
               <td class="px-6 py-4">
                   <span
@@ -174,7 +174,7 @@
                 <div class="flex gap-2">
                   <button
                     @click="editResource(resource)"
-                    class="bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
+                    class="bg-coral-50 hover:bg-coral-100 text-coral-500 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
                   >
                     Modifier
                   </button>
@@ -205,7 +205,7 @@
           <select
             v-model="bookingFilter"
             @change="store.fetchBookings({ status: bookingFilter || undefined })"
-            class="border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            class="border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 bg-white"
           >
             <option value="">Tous les statuts</option>
             <option value="pending">En attente</option>
@@ -238,7 +238,7 @@
                 <p>{{ booking.check_in_date }}</p>
                 <p>→ {{ booking.check_out_date }}</p>
               </td>
-              <td class="px-6 py-4 font-bold text-blue-600">{{ booking.total_price }}€</td>
+              <td class="px-6 py-4 font-bold text-coral-500">{{ booking.total_price }}€</td>
               <td class="px-6 py-4">
                   <span :class="statusClass(booking.status)" class="text-xs font-semibold px-3 py-1 rounded-full">
                     {{ statusLabel(booking.status) }}
@@ -248,7 +248,7 @@
                 <select
                   :value="booking.status"
                   @change="store.updateBookingStatus(booking.id, $event.target.value)"
-                  class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-coral-400 bg-white"
                 >
                   <option value="pending">En attente</option>
                   <option value="confirmed">Confirmer</option>
@@ -283,7 +283,7 @@
             <tr v-for="user in store.users" :key="user.id" class="hover:bg-gray-50 transition-colors">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white text-sm font-bold">
+                  <div class="w-9 h-9 bg-gradient-to-br from-coral-400 to-coral-600 rounded-xl flex items-center justify-center text-white text-sm font-bold">
                     {{ user.name?.charAt(0).toUpperCase() }}
                   </div>
                   <div>
@@ -302,7 +302,7 @@
                 <select
                   :value="user.role"
                   @change="store.updateUserRole(user.id, $event.target.value)"
-                  class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  class="border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-coral-400 bg-white"
                 >
                   <option value="client">Client</option>
                   <option value="manager">Manager</option>
@@ -353,10 +353,10 @@ const maxBookings = computed(() => {
 })
 
 const kpis = computed(() => [
-  { icon: '📅', label: 'Réservations',  value: store.stats?.total_bookings  || 0, color: 'text-blue-600',   bg: 'bg-blue-50'   },
+  { icon: '📅', label: 'Réservations',  value: store.stats?.total_bookings  || 0, color: 'text-coral-500',   bg: 'bg-coral-50'   },
   { icon: '💰', label: 'Revenus',       value: `${store.stats?.total_revenue || 0}€`, color: 'text-green-600', bg: 'bg-green-50' },
   { icon: '⏳', label: 'Actives',       value: store.stats?.active_bookings  || 0, color: 'text-yellow-600', bg: 'bg-yellow-50' },
-  { icon: '🏨', label: 'Ressources',   value: store.stats?.total_resources  || 0, color: 'text-purple-600', bg: 'bg-purple-50' },
+  { icon: '🏨', label: 'Ressources',   value: store.stats?.total_resources  || 0, color: 'text-teal-500', bg: 'bg-teal-50' },
   { icon: '👥', label: 'Clients',      value: store.stats?.total_users      || 0, color: 'text-gray-700',   bg: 'bg-gray-100'  },
 ])
 
@@ -371,7 +371,7 @@ function statusLabel(status) { return statusMap[status]?.label || status }
 function statusClass(status) { return statusMap[status]?.class || '' }
 
 function roleClass(role) {
-  return { admin: 'bg-purple-100 text-purple-700', manager: 'bg-blue-100 text-blue-700', client: 'bg-gray-100 text-gray-600' }[role] || ''
+  return { admin: 'bg-teal-100 text-teal-700', manager: 'bg-coral-100 text-coral-700', client: 'bg-gray-100 text-gray-600' }[role] || ''
 }
 
 function editResource(resource) {
