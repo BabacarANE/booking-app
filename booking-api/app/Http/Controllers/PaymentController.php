@@ -8,6 +8,8 @@ use App\Http\Resources\PaymentResource;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use App\Mail\BookingConfirmed;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -96,6 +98,32 @@ class PaymentController extends Controller
 
             // ✅ Bloquer les dates dans la table availabilities
             $this->blockDates($booking);
+
+            if ($paymentIntent->status === 'succeeded') {
+                // Mettre à jour la réservation
+                $booking->update([
+                    'status'         => 'confirmed',
+                    'payment_status' => 'succeeded',
+                ]);
+
+                // Mettre à jour le paiement
+                $booking->payment->update([
+                    'status'         => 'succeeded',
+                    'payment_method' => $paymentIntent->payment_method,
+                ]);
+
+                // ✅ Bloquer les dates
+                $this->blockDates($booking);
+
+                // ✅ Email de confirmation après paiement réussi
+                Mail::to($booking->user->email)
+                    ->queue(new BookingConfirmed($booking->load(['user', 'resource'])));
+
+                return response()->json([
+                    'message' => 'Paiement confirmé avec succès.',
+                    'booking' => $booking->load(['resource', 'payment']),
+                ]);
+            }
 
             return response()->json([
                 'message' => 'Paiement confirmé avec succès.',

@@ -372,14 +372,7 @@ const calendarDays = computed(() => {
   return days
 })
 
-function isAvailable(dateStr) {
-  if (!availability.value) return true
-  const booked = availability.value.booked_dates?.some(b =>
-    dateStr >= b.check_in_date && dateStr < b.check_out_date
-  )
-  const blocked = availability.value.unavailable_dates?.includes(dateStr)
-  return !booked && !blocked
-}
+
 
 function getDayClass(day) {
   if (!day) return ''
@@ -406,12 +399,19 @@ function selectDay(day) {
   }
 }
 
+// loadAvailability()
 async function loadAvailability() {
   availability.value = await store.fetchAvailability(
     route.params.id,
     currentMonth.value,
     currentYear.value
   )
+}
+
+
+function isAvailable(dateStr) {
+  if (!availability.value) return true
+  return !availability.value.unavailable_dates?.includes(dateStr)
 }
 
 async function prevMonth() {

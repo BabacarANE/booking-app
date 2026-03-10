@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Resource;
 use App\Http\Resources\BookingResource;
 use Illuminate\Http\Request;
+use App\Services\AvailabilityService;
 
 use App\Mail\BookingConfirmed;
 use App\Mail\BookingCancelled;
@@ -37,6 +38,10 @@ class BookingController extends Controller
     }
 
     // ✅ Créer une réservation
+    public function __construct(
+        private AvailabilityService $availabilityService
+    ) {}
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -48,42 +53,22 @@ class BookingController extends Controller
 
         $resource = Resource::findOrFail($validated['resource_id']);
 
-        // ✅ Vérification de disponibilité
-        $conflict = Booking::where('resource_id', $resource->id)
-            ->where(function ($q) {
-                $q->where('status', 'confirmed')
-                    ->orWhere(function ($q) {
-                        // Pending avec paiement amorcé (payment_intent_id présent)
-                        $q->where('status', 'pending')
-                            ->whereNotNull('payment_intent_id');
-                    });
-            })
-            ->where(function ($query) use ($validated) {
-                $query->whereBetween('check_in_date', [
-                    $validated['check_in_date'],
-                    $validated['check_out_date']
-                ])
-                    ->orWhereBetween('check_out_date', [
-                        $validated['check_in_date'],
-                        $validated['check_out_date']
-                    ])
-                    ->orWhere(function ($q) use ($validated) {
-                        $q->where('check_in_date', '<=', $validated['check_in_date'])
-                            ->where('check_out_date', '>=', $validated['check_out_date']);
-                    });
-            })->exists();
-
-        if ($conflict) {
+        // ✅ Vérification centralisée via AvailabilityService
+        if (!$this->availabilityService->isAvailable(
+            $resource->id,
+            $validated['check_in_date'],
+            $validated['check_out_date']
+        )) {
             return response()->json([
                 'message' => 'Ces dates ne sont pas disponibles pour cette ressource.',
             ], 409);
         }
 
         // ✅ Calcul du prix total
-        $checkIn  = \Carbon\Carbon::parse($validated['check_in_date']);
+        $checkIn = \Carbon\Carbon::parse($validated['check_in_date']);
         $checkOut = \Carbon\Carbon::parse($validated['check_out_date']);
-        $nights   = $checkIn->diffInDays($checkOut);
-        $total    = $nights * $resource->price_per_night;
+        $nights  = $checkIn->diffInDays($checkOut);
+        $total   = $nights * $resource->price_per_night;
 
         // ✅ Création de la réservation
         $booking = Booking::create([
@@ -97,11 +82,8 @@ class BookingController extends Controller
             'special_requests' => $validated['special_requests'] ?? null,
         ]);
 
-        //  ✅ Mail de création
-
-        Mail::to($request->user()->email)
-            ->queue(new BookingConfirmed($booking->load(['user', 'resource'])));
-
+        // ⚠️ Email uniquement après paiement confirmé, pas à la création
+        // Mail envoyé dans PaymentController::confirm()
 
         return new BookingResource($booking->load(['resource.category']));
     }

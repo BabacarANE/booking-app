@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Resource;
 use App\Models\Availability;
 use App\Http\Resources\ResourceResource;
+use App\Services\AvailabilityService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -96,6 +97,10 @@ class ResourceController extends Controller
     }
 
     // ✅ Disponibilités d'une ressource
+    public function __construct(
+        private AvailabilityService $availabilityService
+    ) {}
+
     public function availability(Request $request, $id)
     {
         $resource = Resource::findOrFail($id);
@@ -108,28 +113,14 @@ class ResourceController extends Controller
         $month = $request->get('month', now()->month);
         $year  = $request->get('year', now()->year);
 
-        // ✅ Seulement les réservations confirmées ET payées
-        $bookedDates = $resource->bookings()
-            ->where('status', 'confirmed')
-            ->where('payment_status', 'succeeded')
-            ->whereNotNull('payment_intent_id')
-            ->whereYear('check_in_date', $year)
-            ->whereMonth('check_in_date', $month)
-            ->get(['check_in_date', 'check_out_date']);
-
-        // Récupère les indisponibilités manuelles (maintenance, etc.)
-        $unavailableDates = $resource->availabilities()
-            ->where('is_available', false)
-            ->where('reason', 'booked') // ✅ Seulement les dates bloquées par paiement
-            ->whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->pluck('date');
+        // ✅ Utilise le service centralisé
+        $unavailableDates = $this->availabilityService
+            ->getUnavailableDates($resource->id, $month, $year);
 
         return response()->json([
             'resource_id'       => $resource->id,
             'month'             => $month,
             'year'              => $year,
-            'booked_dates'      => $bookedDates,
             'unavailable_dates' => $unavailableDates,
         ]);
     }
