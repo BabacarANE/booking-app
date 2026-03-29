@@ -2,8 +2,8 @@
   <div class="min-h-screen bg-gray-50">
 
     <!-- Loading skeleton -->
-    <div v-if="store.loading" class="max-w-6xl mx-auto px-4 py-10 animate-pulse space-y-6">
-      <div class="bg-gray-200 rounded-2xl h-80" />
+    <div v-if="store.loading" class="max-w-6xl mx-auto px-3 md:px-4 py-6 md:py-10 animate-pulse space-y-6">
+      <div class="bg-gray-200 rounded-2xl h-48 md:h-80" />
       <div class="grid grid-cols-3 gap-8">
         <div class="col-span-2 space-y-4">
           <div class="bg-gray-200 rounded-xl h-10 w-2/3" />
@@ -17,7 +17,7 @@
     <div v-else-if="store.resource">
 
       <!-- Hero image / Galerie carrousel -->
-      <div class="relative h-96 overflow-hidden bg-gradient-to-br from-coral-500 to-coral-700">
+      <div class="relative h-56 md:h-96 overflow-hidden bg-gradient-to-br from-coral-500 to-coral-700">
 
         <!-- Images -->
         <transition-group name="fade">
@@ -63,38 +63,38 @@
         </template>
 
         <!-- Back button -->
-        <div class="absolute top-6 left-6">
+        <div class="absolute top-2 md:top-6 left-2 md:left-6">
           <RouterLink
             to="/resources"
-            class="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/30 transition-colors"
+            class="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-3 py-1.5 md:px-4 md:py-2 rounded-xl text-xs md:text-sm font-medium hover:bg-white/30 transition-colors"
           >
             ← Retour
           </RouterLink>
         </div>
 
         <!-- Badge catégorie -->
-        <div class="absolute top-6 right-6">
+        <div class="absolute top-2 md:top-6 right-2 md:right-6">
         <span class="bg-white/20 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-xl">
           {{ store.resource.category?.name }}
         </span>
         </div>
 
         <!-- Titre -->
-        <div class="absolute bottom-16 left-6 right-6">
-          <h1 class="text-3xl font-bold text-white">{{ store.resource.name }}</h1>
-          <p class="text-white/80 mt-1">📍 {{ store.resource.location }}</p>
+        <div class="absolute bottom-12 md:bottom-16 left-3 md:left-6 right-3 md:right-6">
+          <h1 class="text-xl md:text-3xl font-bold text-white">{{ store.resource.name }}</h1>
+          <p class="text-white/80 mt-1 text-xs md:text-base">📍 {{ store.resource.location }}</p>
         </div>
 
         <!-- Miniatures + indicateurs -->
-        <div class="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2">
+        <div class="absolute bottom-2 md:bottom-4 left-0 right-0 flex items-center justify-center gap-2 px-2">
           <template v-if="store.resource.images_list?.length > 1">
             <!-- Miniatures cliquables -->
-            <div class="flex gap-2 bg-black/30 backdrop-blur-sm rounded-2xl p-2">
+            <div class="flex gap-1 md:gap-2 bg-black/30 backdrop-blur-sm rounded-2xl p-1.5 md:p-2 overflow-x-auto max-w-xs">
               <button
                 v-for="(img, index) in store.resource.images_list"
                 :key="img.id"
                 @click="goToImage(index)"
-                class="relative w-12 h-12 rounded-xl overflow-hidden transition-all duration-300"
+                class="relative w-8 md:w-12 h-8 md:h-12 rounded-xl overflow-hidden transition-all duration-300 shrink-0"
                 :class="currentImageIndex === index
             ? 'ring-2 ring-white scale-110'
             : 'opacity-60 hover:opacity-100'"
@@ -107,50 +107,50 @@
           <!-- Compteur -->
           <div
             v-if="store.resource.images_list?.length > 1"
-            class="bg-black/30 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium"
+            class="bg-black/30 backdrop-blur-sm text-white text-xs px-2 md:px-3 py-1 md:py-1.5 rounded-full font-medium shrink-0"
           >
             {{ currentImageIndex + 1 }} / {{ store.resource.images_list.length }}
           </div>
         </div>
       </div>
 
-      <div class="max-w-6xl mx-auto px-4 py-10">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div class="max-w-6xl mx-auto px-3 md:px-4 py-6 md:py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
 
           <!-- Colonne gauche -->
           <div class="lg:col-span-2 space-y-8">
 
             <!-- Description -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 class="text-xl font-bold text-gray-900 mb-3">Description</h2>
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100">
+              <h2 class="text-lg md:text-xl font-bold text-gray-900 mb-3">Description</h2>
               <p class="text-gray-600 leading-relaxed">{{ store.resource.description }}</p>
 
-              <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-100">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 pt-6 border-t border-gray-100">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center shrink-0">
                     <span>👥</span>
                   </div>
                   <div>
                     <p class="text-xs text-gray-400">Capacité</p>
-                    <p class="font-semibold text-gray-800">{{ store.resource.capacity }} personnes</p>
+                    <p class="font-semibold text-sm md:text-base text-gray-800">{{ store.resource.capacity }} personnes</p>
                   </div>
                 </div>
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center">
+                  <div class="w-10 h-10 bg-coral-50 rounded-xl flex items-center justify-center shrink-0">
                     <span>💰</span>
                   </div>
                   <div>
                     <p class="text-xs text-gray-400">Prix</p>
-                    <p class="font-semibold text-gray-800">{{ store.resource.price_per_night }}€ / nuit</p>
+                    <p class="font-semibold text-sm md:text-base text-gray-800">{{ store.resource.price_per_night }}€ / nuit</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- Équipements -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 class="text-xl font-bold text-gray-900 mb-4">Équipements inclus</h2>
-              <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100">
+              <h2 class="text-lg md:text-xl font-bold text-gray-900 mb-4">Équipements inclus</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                 <div
                   v-for="amenity in store.resource.amenities"
                   :key="amenity"
@@ -165,37 +165,37 @@
             </div>
 
             <!-- Calendrier -->
-            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-              <h2 class="text-xl font-bold text-gray-900 mb-6">Disponibilités</h2>
+            <div class="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100">
+              <h2 class="text-lg md:text-xl font-bold text-gray-900 mb-6">Disponibilités</h2>
 
               <!-- Navigation mois -->
               <div class="flex items-center justify-between mb-6">
                 <button
                   @click="prevMonth"
-                  class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors text-gray-600"
+                  class="w-8 md:w-9 h-8 md:h-9 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors text-gray-600 text-lg"
                 >←</button>
-                <h3 class="font-bold text-gray-800 text-lg">{{ monthName }} {{ currentYear }}</h3>
+                <h3 class="font-bold text-gray-800 text-base md:text-lg text-center">{{ monthName }} {{ currentYear }}</h3>
                 <button
                   @click="nextMonth"
-                  class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors text-gray-600"
+                  class="w-8 md:w-9 h-8 md:h-9 flex items-center justify-center rounded-xl hover:bg-gray-100 transition-colors text-gray-600 text-lg"
                 >→</button>
               </div>
 
               <!-- Jours semaine -->
-              <div class="grid grid-cols-7 gap-1 mb-2">
+              <div class="grid grid-cols-7 gap-0.5 md:gap-1 mb-1 md:mb-2">
                 <div
                   v-for="day in ['L', 'M', 'M', 'J', 'V', 'S', 'D']"
                   :key="day"
-                  class="text-center text-xs font-bold text-gray-400 py-2"
+                  class="text-center text-xs font-bold text-gray-400 py-1.5 md:py-2"
                 >{{ day }}</div>
               </div>
 
               <!-- Jours -->
-              <div class="grid grid-cols-7 gap-1">
+              <div class="grid grid-cols-7 gap-0.5 md:gap-1">
                 <div
                   v-for="(day, index) in calendarDays"
                   :key="index"
-                  class="aspect-square flex items-center justify-center rounded-xl text-sm font-medium cursor-pointer transition-all"
+                  class="aspect-square flex items-center justify-center rounded-lg md:rounded-xl text-xs md:text-sm font-medium cursor-pointer transition-all"
                   :class="getDayClass(day)"
                   @click="selectDay(day)"
                 >
@@ -204,18 +204,18 @@
               </div>
 
               <!-- Légende -->
-              <div class="flex gap-6 mt-6 pt-4 border-t border-gray-100">
+              <div class="flex flex-wrap gap-3 md:gap-6 mt-6 pt-4 border-t border-gray-100">
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-gray-100 rounded-lg" /> Passé
+                  <div class="w-3 md:w-4 h-3 md:h-4 bg-gray-100 rounded-lg" /> Passé
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-red-100 rounded-lg" /> Indisponible
+                  <div class="w-3 md:w-4 h-3 md:h-4 bg-red-100 rounded-lg" /> Indisponible
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-coral-500 rounded-lg" /> Sélectionné
+                  <div class="w-3 md:w-4 h-3 md:h-4 bg-coral-500 rounded-lg" /> Sélectionné
                 </div>
                 <div class="flex items-center gap-2 text-xs text-gray-500">
-                  <div class="w-4 h-4 bg-coral-100 rounded-lg" /> Dans la plage
+                  <div class="w-3 md:w-4 h-3 md:h-4 bg-coral-100 rounded-lg" /> Dans la plage
                 </div>
               </div>
             </div>
@@ -224,19 +224,19 @@
 
           <!-- Colonne droite — Bloc réservation sticky -->
           <div class="lg:col-span-1">
-            <div class="bg-white border border-gray-100 rounded-2xl shadow-lg sticky top-24 overflow-hidden">
+            <div class="bg-white border border-gray-100 rounded-2xl shadow-lg sticky top-4 md:top-24 overflow-hidden">
 
               <!-- Header prix -->
-              <div class="bg-gradient-to-r from-coral-500 to-coral-700 p-6 text-white text-center">
-                <p class="text-sm text-coral-100 mb-1">À partir de</p>
+              <div class="bg-gradient-to-r from-coral-500 to-coral-700 p-4 md:p-6 text-white text-center">
+                <p class="text-xs md:text-sm text-coral-100 mb-1">À partir de</p>
                 <div class="flex items-end justify-center gap-1">
-                  <span class="text-4xl font-bold">{{ store.resource.price_per_night }}</span>
-                  <span class="text-xl mb-1">€</span>
+                  <span class="text-3xl md:text-4xl font-bold">{{ store.resource.price_per_night }}</span>
+                  <span class="text-lg md:text-xl mb-1">€</span>
                 </div>
-                <p class="text-coral-100 text-sm">par nuit</p>
+                <p class="text-coral-100 text-xs md:text-sm">par nuit</p>
               </div>
 
-              <div class="p-6 space-y-4">
+              <div class="p-4 md:p-6 space-y-4">
 
                 <div>
                   <label class="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1.5">
@@ -246,7 +246,7 @@
                     v-model="booking.check_in"
                     type="date"
                     :min="today"
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
+                    class="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
                   />
                 </div>
 
@@ -258,7 +258,7 @@
                     v-model="booking.check_out"
                     type="date"
                     :min="booking.check_in || today"
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
+                    class="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent"
                   />
                 </div>
 
@@ -270,13 +270,13 @@
                     v-model="booking.special_requests"
                     rows="2"
                     placeholder="Chambre non-fumeur, lit bébé..."
-                    class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent resize-none"
+                    class="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-coral-400 focus:border-transparent resize-none"
                   />
                 </div>
 
                 <!-- Récap prix -->
-                <div v-if="nights > 0" class="bg-coral-50 rounded-xl p-4 space-y-2">
-                  <div class="flex justify-between text-sm text-gray-600">
+                <div v-if="nights > 0" class="bg-coral-50 rounded-xl p-3 md:p-4 space-y-2">
+                  <div class="flex justify-between text-xs md:text-sm text-gray-600">
                     <span>{{ store.resource.price_per_night }}€ × {{ nights }} nuit(s)</span>
                     <span class="font-medium">{{ totalPrice }}€</span>
                   </div>
@@ -293,7 +293,7 @@
                 <button
                   @click="handleBooking"
                   :disabled="!nights || loading"
-                  class="w-full bg-coral-500 hover:bg-coral-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl"
+                  class="w-full bg-coral-500 hover:bg-coral-600 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-2.5 md:py-3.5 rounded-xl transition-all shadow-lg hover:shadow-xl text-xs md:text-sm"
                 >
                   {{ loading ? '⏳ Réservation...' : nights ? `Réserver — ${totalPrice}€` : 'Sélectionnez des dates' }}
                 </button>

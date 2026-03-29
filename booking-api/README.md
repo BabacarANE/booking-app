@@ -77,7 +77,7 @@ php artisan serve
 php artisan queue:work
 
 # Terminal 3 — Scheduler (expiration réservations, rappels)
-php artisan schedule:work
+
 ```
 
 ---

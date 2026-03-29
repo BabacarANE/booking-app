@@ -1,12 +1,12 @@
 <template>
-  <div class="max-w-7xl mx-auto px-4 py-10">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Nos hébergements</h1>
+  <div class="max-w-7xl mx-auto px-3 md:px-4 py-6 md:py-10">
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 md:mb-8">Nos hébergements</h1>
 
-    <div class="flex gap-8">
+    <div class="flex flex-col md:flex-row gap-6 md:gap-8">
 
       <!-- Sidebar Filtres -->
-      <aside class="w-72 shrink-0">
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sticky top-24">
+      <aside class="md:w-72 shrink-0">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 sticky top-4 md:top-24">
           <h2 class="font-bold text-gray-800 text-lg mb-5">Filtres</h2>
 
           <!-- Localisation -->
@@ -116,14 +116,14 @@
       <div class="flex-1">
 
         <!-- Tri -->
-        <div class="flex items-center justify-between mb-6">
-          <p class="text-gray-500 text-sm">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+          <p class="text-gray-500 text-xs md:text-sm">
             {{ store.pagination?.total || 0 }} hébergement(s) trouvé(s)
           </p>
           <select
             v-model="sortBy"
             @change="applyFilters()"
-            class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
+            class="w-full sm:w-auto border border-gray-200 rounded-lg px-3 py-2 text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-coral-400"
           >
             <option value="price_per_night_asc">Prix croissant</option>
             <option value="price_per_night_desc">Prix décroissant</option>
