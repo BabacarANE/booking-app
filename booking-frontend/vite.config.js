@@ -12,5 +12,11 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+   server: {
+    allowedHosts: [
+      'retrieval-zesty-favoring.ngrok-free.dev',
+      '.ngrok-free.dev'  // Autorise tous les sous-domaines ngrok
+    ]
   }
 })

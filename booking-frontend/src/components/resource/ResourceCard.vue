@@ -14,10 +14,20 @@
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
       <div v-else class="absolute inset-0 flex items-center justify-center">
-        <span class="text-7xl opacity-40">🏨</span>
+        <span class="text-7xl opacity-40"><img
+            src="/favicon.ico"
+            alt="BookingApp"
+            class="w-9 h-9 rounded-xl group-hover:scale-105 transition-transform"
+          />
+        </span>
       </div>
       <div class="absolute inset-0 flex items-center justify-center">
-        <span class="text-7xl opacity-80">🏨</span>
+        <span class="text-7xl opacity-80"><img
+            src="/favicon.ico"
+            alt="BookingApp"
+            class="w-9 h-9 rounded-xl group-hover:scale-105 transition-transform"
+          />
+        </span>
       </div>
 
       <!-- Badge featured -->

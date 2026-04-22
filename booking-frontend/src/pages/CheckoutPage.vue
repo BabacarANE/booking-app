@@ -49,16 +49,16 @@
 
           <!-- Étape 1 — Récapitulatif réservation -->
           <div v-if="currentStep === 0" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
-            <h2 class=\"text-lg md:text-xl font-bold text-gray-900 mb-6\">Votre réservation</h2>
+            <h2 class="text-lg md:text-xl font-bold text-gray-900 mb-6">Votre réservation</h2>
 
-            <div class=\"flex gap-3 md:gap-5 mb-6 flex-col md:flex-row md:items-start\">
-              <div class=\"w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl flex items-center justify-center text-3xl md:text-4xl shrink-0\">
+            <div class="flex gap-3 md:gap-5 mb-6 flex-col md:flex-row md:items-start">
+              <div class="w-20 md:w-24 h-20 md:h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl flex items-center justify-center text-3xl md:text-4xl shrink-0">
                 🏨
               </div>
-              <div class=\"min-w-0\">
-                <h3 class=\"font-bold text-gray-900 text-base md:text-lg break-words\">{{ booking.resource?.name }}</h3>
-                <p class=\"text-gray-500 mt-1 text-sm break-words\">📍 {{ booking.resource?.location }}</p>
-                <p class=\"text-gray-500 text-xs md:text-sm mt-2\">
+              <div class="min-w-0">
+                <h3 class="font-bold text-gray-900 text-base md:text-lg break-words">{{ booking.resource?.name }}</h3>
+                <p class="text-gray-500 mt-1 text-sm break-words">📍 {{ booking.resource?.location }}</p>
+                <p class="text-gray-500 text-xs md:text-sm mt-2">
                   {{ booking.resource?.category?.name }}
                 </p>
               </div>
@@ -87,17 +87,17 @@
               </div>
             </div>
 
-            <div class=\"flex gap-2 md:gap-3 mt-6 flex-col md:flex-row\">
+            <div class="flex gap-2 md:gap-3 mt-6 flex-col md:flex-row">
               <RouterLink
-                :to=\"`/resources/${booking.resource_id}`\"
-                class=\"flex-1 border border-gray-200 text-gray-600 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-medium hover:bg-gray-50 transition-colors text-center\"
+                :to="`/resources/${booking.resource_id}`"
+                class="flex-1 border border-gray-200 text-gray-600 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-medium hover:bg-gray-50 transition-colors text-center"
               >
                 ← Modifier
               </RouterLink>
               <button
-                @click=\"proceedToPayment\"
-                :disabled=\"loadingIntent\"
-                class=\"flex-1 bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-bold transition-colors\"
+                @click="proceedToPayment"
+                :disabled="loadingIntent"
+                class="flex-1 bg-coral-500 hover:bg-coral-600 disabled:opacity-50 text-white py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-bold transition-colors"
               >
                 {{ loadingIntent ? '⏳ Chargement...' : 'Procéder au paiement →' }}
               </button>
@@ -117,6 +117,7 @@
             <p v-if="paymentError" class="text-red-500 text-xs md:text-sm bg-red-50 rounded-xl p-3 mb-4">
               ⚠️ {{ paymentError }}
             </p>
+
             <div v-if="currentStep === 1" class="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-xl px-3 md:px-4 py-2 md:py-3 mb-4 text-xs md:text-sm">
               <span class="text-orange-500 text-lg md:text-base">⏱️</span>
               <p class="text-orange-700">
@@ -126,7 +127,6 @@
             </div>
 
             <div class="flex gap-2 md:gap-3 flex-col md:flex-row">
-
               <button
                 @click="currentStep = 0"
                 class="flex-1 border border-gray-200 text-gray-600 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-medium hover:bg-gray-50 transition-colors"
@@ -205,27 +205,39 @@
         <!-- Récapitulatif latéral -->
         <div class="lg:col-span-1">
           <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 sticky top-4 md:top-24">
-            <h3 class=\"font-bold text-gray-900 mb-4 text-sm md:text-base\">Récapitulatif</h3>
+            <h3 class="font-bold text-gray-900 mb-4 text-sm md:text-base">Récapitulatif</h3>
 
-            <div class=\"space-y-2 md:space-y-3 text-xs md:text-sm\">
-              <div class=\"flex justify-between text-gray-600 break-words\">
+            <div class="space-y-2 md:space-y-3 text-xs md:text-sm">
+              <div class="flex justify-between text-gray-600 break-words">
                 <span>{{ booking.resource?.name }}</span>
               </div>
-              <div class=\"flex justify-between text-gray-600\">
+              <div class="flex justify-between text-gray-600">
                 <span>{{ booking.resource?.price_per_night }}€ × {{ nights }} nuits</span>
                 <span>{{ booking.total_price }}€</span>
               </div>
-              <div class=\"flex justify-between text-gray-500 text-xs\">
+              <div class="flex justify-between text-gray-500 text-xs">
                 <span>Taxes incluses</span>
                 <span>—</span>
               </div>
-              <div class=\"flex justify-between font-bold text-gray-900 pt-2 md:pt-3 border-t text-sm md:text-base\">
+              <div class="flex justify-between font-bold text-gray-900 pt-2 md:pt-3 border-t text-sm md:text-base">
                 <span>Total</span>
                 <span class="text-coral-500">{{ booking.total_price }}€</span>
               </div>
             </div>
 
-            <!-- Badge sécurité -->\n            <div class=\"mt-4 md:mt-6 bg-gray-50 rounded-xl p-3 md:p-4 space-y-2\">\n              <div class=\"flex items-center gap-2 text-xs text-gray-500\">\n                <span class=\"text-sm\">🔒</span> <span>Paiement 100% sécurisé</span>\n              </div>\n              <div class=\"flex items-center gap-2 text-xs text-gray-500\">\n                <span class=\"text-sm\">✅</span> <span>Confirmation instantanée</span>\n              </div>\n              <div class=\"flex items-center gap-2 text-xs text-gray-500\">\n                <span class=\"text-sm\">📧</span> <span>Email de confirmation</span>\n              </div>\n            </div>"}}]
+            <!-- Badge sécurité -->
+            <div class="mt-4 md:mt-6 bg-gray-50 rounded-xl p-3 md:p-4 space-y-2">
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span class="text-sm">🔒</span> <span>Paiement 100% sécurisé</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span class="text-sm">✅</span> <span>Confirmation instantanée</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <span class="text-sm">📧</span> <span>Email de confirmation</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
